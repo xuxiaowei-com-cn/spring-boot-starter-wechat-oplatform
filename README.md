@@ -113,6 +113,13 @@
   </a>
 </div>
 
+## 分支
+
+- main
+    - 支持 JDK 8、11
+- next
+    - 支持 JDK 17
+
 ## 参考文档
 
 - [微信登录功能 - 网站应用微信登录开发指南](https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html)
