@@ -48,59 +48,59 @@
     <img alt="IntelliJ IDEA" src="https://img.shields.io/static/v1?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAAAAAByaaZbAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBRkBICRBfW8eAAABPklEQVRIx+2UTStEYRiGr/kqZWaKMoyQUsoCWdn4AZKPlZSF5fgPVhYWStlZqPkB7GynWSg/QCmhUFOUGCPNZBrlnNtijmneOYZzykrn2p2e536f577P2wsBPvmQlACQg13Mr4b9CCTpuMunQIdGT8gQRCBZAQRPu0B6aRjsvqKXCRcAJO8lTTf3/GQJKF8Bz5481CfMvEnnxtrRduKhPET7R6GWka+UrBW//8Hej3haqZQFYgNz8VDmYbNNT8iSFDdMM1iSyh3uWHsAesNgVc1D7k4hMeISrN0uAOtAwTYF6Smg2UQUYDYbO8qdjS0Cua9CahsgPd8NleuW3WOFRiTV+nTj8mnL5XbixinVlnEJ7L1vkuzcuJT0ejDufL98UTjZmWyJsqFJvT9aBAT8J5zrrXYFF788xn8gCPDCJ2cr3I1zqSjOAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTA1LTI1VDAxOjMyOjM2KzAwOjAwH/0yeQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wNS0yNVQwMTozMjozNiswMDowMG6gisUAAAAASUVORK5CYII=&message=IntelliJ IDEA">
   </a>
 
-  <a target="_blank" href="https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/spring-boot-starter-wechat-offiaccount">
-    <img alt="snapshots" src="https://img.shields.io/maven-metadata/v?label=snapshots&metadataUrl=https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/spring-boot-starter-wechat-offiaccount/maven-metadata.xml">
+  <a target="_blank" href="https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/spring-boot-starter-wechat-oplatform">
+    <img alt="snapshots" src="https://img.shields.io/maven-metadata/v?label=snapshots&metadataUrl=https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/spring-boot-starter-wechat-oplatform/maven-metadata.xml">
   </a>
 
-  <a target="_blank" href="https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/spring-boot-starter-wechat-offiaccount">
-    <img alt="releases" src="https://img.shields.io/maven-metadata/v?label=releases&color=blue&metadataUrl=https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/spring-boot-starter-wechat-offiaccount/maven-metadata.xml">
+  <a target="_blank" href="https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/spring-boot-starter-wechat-oplatform">
+    <img alt="releases" src="https://img.shields.io/maven-metadata/v?label=releases&color=blue&metadataUrl=https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/spring-boot-starter-wechat-oplatform/maven-metadata.xml">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount?logo=github">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform?logo=github">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="GitHub forks" src="https://img.shields.io/github/forks/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount?logo=github">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform?logo=github">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount?logo=github">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform?logo=github">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
   </a>
 
-  <a target="_blank" href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="码云Gitee stars" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount/badge/star.svg?theme=blue">
+  <a target="_blank" href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="码云Gitee stars" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform/badge/star.svg?theme=blue">
   </a>
 
-  <a target="_blank" href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="码云Gitee forks" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount/badge/fork.svg?theme=blue">
+  <a target="_blank" href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="码云Gitee forks" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform/badge/fork.svg?theme=blue">
   </a>
 
-  <a target="_blank" href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="Gitlab stars" src="https://badgen.net/gitlab/stars/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount?icon=gitlab">
+  <a target="_blank" href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="Gitlab stars" src="https://badgen.net/gitlab/stars/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform?icon=gitlab">
   </a>
 
-  <a target="_blank" href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="Gitlab forks" src="https://badgen.net/gitlab/forks/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount?icon=gitlab">
+  <a target="_blank" href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="Gitlab forks" src="https://badgen.net/gitlab/forks/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform?icon=gitlab">
   </a>
 
-  <a target="_blank" href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="OSCS Status" src="https://www.oscs1024.com/platform/badge/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount.svg?size=small">
+  <a target="_blank" href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="OSCS Status" src="https://www.oscs1024.com/platform/badge/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform.svg?size=small">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
-    <img alt="total lines" src="https://tokei.rs/b1/github/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
+    <img alt="total lines" src="https://tokei.rs/b1/github/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount/blob/main/pom.xml">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform/blob/main/pom.xml">
     <img alt="Spring Boot" src="https://img.shields.io/static/v1?logo=Spring Boot&message=2.7.x&color=blue">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-offiaccount/blob/main/pom.xml">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform/blob/main/pom.xml">
     <img alt="OAuth 2.1" src="https://img.shields.io/static/v1?label=OAuth 2.1&message=0.3.1&color=blue">
   </a>
 
