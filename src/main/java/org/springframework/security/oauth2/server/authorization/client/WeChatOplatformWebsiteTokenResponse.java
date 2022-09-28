@@ -42,7 +42,7 @@ public class WeChatOplatformWebsiteTokenResponse implements Serializable {
 	private String scope;
 
 	/**
-	 * 用户唯一标识，请注意，在未关注公众号时，用户访问公众号的网页，也会产生一个用户和公众号唯一的OpenID
+	 * 用户唯一标识
 	 */
 	private String openid;
 

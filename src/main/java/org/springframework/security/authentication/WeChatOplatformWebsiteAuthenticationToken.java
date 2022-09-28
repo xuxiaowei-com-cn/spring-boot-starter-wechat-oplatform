@@ -95,7 +95,7 @@ public class WeChatOplatformWebsiteAuthenticationToken extends AbstractAuthentic
 	private final Object details;
 
 	/**
-	 * AppID(公众号ID)
+	 * AppID
 	 */
 	@Getter
 	private final String appid;

@@ -10,7 +10,7 @@ package org.springframework.security.oauth2.core.endpoint;
 public interface OAuth2WeChatOplatformParameterNames {
 
 	/**
-	 * AppID(公众号ID)
+	 * AppID
 	 *
 	 * @see <a href=
 	 * "https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html">微信登录功能/网站应用微信登录开发指南</a>
@@ -18,7 +18,7 @@ public interface OAuth2WeChatOplatformParameterNames {
 	String APPID = "appid";
 
 	/**
-	 * AppSecret(公众号密钥)
+	 * AppSecret
 	 *
 	 * @see <a href=
 	 * "https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html">微信登录功能/网站应用微信登录开发指南</a>
