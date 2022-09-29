@@ -4,17 +4,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.oauth2.core.endpoint.*;
-import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.oauth2.server.authorization.client.WeChatOplatformWebsiteService;
 import org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.springframework.security.oauth2.server.authorization.authentication.OAuth2WeChatOplatformWebsiteAuthenticationToken.WECHAT_OPLATFORM_WEBSITE;
@@ -95,7 +88,6 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 			String remoteHost = request.getRemoteHost();
 			HttpSession session = request.getSession(false);
 
-			RestTemplate restTemplate = new RestTemplate();
 			Map<String, String> uriVariables = new HashMap<>(8);
 			uriVariables.put(OAuth2ParameterNames.GRANT_TYPE, grantType);
 			uriVariables.put(OAuth2WeChatOplatformParameterNames.APPID, appid);
@@ -107,17 +99,11 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 			uriVariables.put(OAuth2WeChatOplatformParameterNames.REMOTE_ADDRESS, remoteHost);
 			uriVariables.put(OAuth2WeChatOplatformParameterNames.SESSION_ID, session == null ? "" : session.getId());
 
-			HttpHeaders httpHeaders = new HttpHeaders();
-			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-			HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
-
-			List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
-			messageConverters.add(5, new OAuth2AccessTokenResponseHttpMessageConverter());
-
-			OAuth2AccessTokenResponse oauth2AccessTokenResponse = restTemplate.postForObject(tokenUrlPrefix + TOKEN_URL,
-					httpEntity, OAuth2AccessTokenResponse.class, uriVariables);
-
-			assert oauth2AccessTokenResponse != null;
+			OAuth2AccessTokenResponse oauth2AccessTokenResponse = weChatOplatformWebsiteService
+					.getOAuth2AccessTokenResponse(request, response, tokenUrlPrefix, TOKEN_URL, uriVariables);
+			if (oauth2AccessTokenResponse == null) {
+				return;
+			}
 
 			weChatOplatformWebsiteService.sendRedirect(request, response, uriVariables, oauth2AccessTokenResponse,
 					oplatformWebsite);

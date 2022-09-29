@@ -8,8 +8,6 @@ import org.springframework.security.oauth2.server.authorization.client.InMemoryW
 import org.springframework.security.oauth2.server.authorization.client.WeChatOplatformWebsiteService;
 import org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties;
 
-import java.util.List;
-
 /**
  * 微信开放平台 网站应用 配置
  *
