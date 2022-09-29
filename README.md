@@ -120,6 +120,12 @@
 - next
     - 支持 JDK 17
 
+## [更新日志](CHANGELOG.md)
+
+## [代码格式规范 spring-javaformat](https://github.com/spring-io/spring-javaformat)
+
+## [示例项目](https://gitee.com/xuxiaowei-com-cn/wechat-oplatform-example)
+
 ## 参考文档
 
 - [微信登录功能 - 网站应用微信登录开发指南](https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html)
