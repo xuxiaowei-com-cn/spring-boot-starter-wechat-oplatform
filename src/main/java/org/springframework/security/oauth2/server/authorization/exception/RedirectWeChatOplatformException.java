@@ -1,5 +1,7 @@
 package org.springframework.security.oauth2.server.authorization.exception;
 
+import org.springframework.security.oauth2.core.OAuth2Error;
+
 /**
  * 重定向 异常
  *
@@ -12,8 +14,25 @@ public class RedirectWeChatOplatformException extends WeChatOplatformException {
 		super(message);
 	}
 
-	public RedirectWeChatOplatformException(String message, Throwable cause) {
-		super(message, cause);
+	public RedirectWeChatOplatformException(OAuth2Error error) {
+		super(error);
+	}
+
+	public RedirectWeChatOplatformException(OAuth2Error error, Throwable cause) {
+		super(error, cause);
+	}
+
+	public RedirectWeChatOplatformException(OAuth2Error error, String message) {
+		super(error, message);
+	}
+
+	public RedirectWeChatOplatformException(OAuth2Error error, String message, Throwable cause) {
+		super(error, message, cause);
+	}
+
+	@Override
+	public OAuth2Error getError() {
+		return super.getError();
 	}
 
 }
