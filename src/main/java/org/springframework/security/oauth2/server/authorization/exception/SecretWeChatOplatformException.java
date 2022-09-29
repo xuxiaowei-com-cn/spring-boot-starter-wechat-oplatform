@@ -10,8 +10,8 @@ import org.springframework.security.oauth2.core.OAuth2Error;
  */
 public class SecretWeChatOplatformException extends WeChatOplatformException {
 
-	public SecretWeChatOplatformException(String message) {
-		super(message);
+	public SecretWeChatOplatformException(String errorCode) {
+		super(errorCode);
 	}
 
 	public SecretWeChatOplatformException(OAuth2Error error) {
@@ -28,11 +28,6 @@ public class SecretWeChatOplatformException extends WeChatOplatformException {
 
 	public SecretWeChatOplatformException(OAuth2Error error, String message, Throwable cause) {
 		super(error, message, cause);
-	}
-
-	@Override
-	public OAuth2Error getError() {
-		return super.getError();
 	}
 
 }

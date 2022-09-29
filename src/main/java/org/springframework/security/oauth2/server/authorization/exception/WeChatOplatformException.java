@@ -11,8 +11,8 @@ import org.springframework.security.oauth2.core.OAuth2Error;
  */
 public class WeChatOplatformException extends OAuth2AuthenticationException {
 
-	public WeChatOplatformException(String message) {
-		super(message);
+	public WeChatOplatformException(String errorCode) {
+		super(errorCode);
 	}
 
 	public WeChatOplatformException(OAuth2Error error) {
