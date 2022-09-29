@@ -17,7 +17,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.oauth2.core.endpoint.*;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.oauth2.server.authorization.client.WeChatOplatformWebsiteService;
-import org.springframework.security.oauth2.server.authorization.exception.AppidWeChatOplatformException;
 import org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -84,33 +83,14 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 			String code = request.getParameter(OAuth2ParameterNames.CODE);
 			String state = request.getParameter(OAuth2ParameterNames.STATE);
 			String grantType = WECHAT_OPLATFORM_WEBSITE.getValue();
-			String clientId = null;
-			String clientSecret = null;
-			String tokenUrlPrefix = null;
-			String scope = null;
 
-			List<WeChatOplatformWebsiteProperties.WeChatOplatformWebsite> list = weChatOplatformWebsiteProperties
-					.getList();
-			if (list == null) {
-				throw new AppidWeChatOplatformException("appid 未配置");
-			}
+			WeChatOplatformWebsiteProperties.WeChatOplatformWebsite oplatformWebsite = weChatOplatformWebsiteService
+					.getWeChatOplatformWebsiteByAppid(appid);
 
-			boolean include = false;
-			WeChatOplatformWebsiteProperties.WeChatOplatformWebsite oplatformWebsite = null;
-			for (WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite : list) {
-				if (appid.equals(weChatOplatformWebsite.getAppid())) {
-					include = true;
-					oplatformWebsite = weChatOplatformWebsite;
-					clientId = weChatOplatformWebsite.getClientId();
-					clientSecret = weChatOplatformWebsite.getClientSecret();
-					tokenUrlPrefix = weChatOplatformWebsite.getTokenUrlPrefix();
-					scope = weChatOplatformWebsite.getScope();
-				}
-			}
-
-			if (!include) {
-				throw new AppidWeChatOplatformException("未匹配到 appid");
-			}
+			String clientId = oplatformWebsite.getClientId();
+			String clientSecret = oplatformWebsite.getClientSecret();
+			String tokenUrlPrefix = oplatformWebsite.getTokenUrlPrefix();
+			String scope = oplatformWebsite.getScope();
 
 			String remoteHost = request.getRemoteHost();
 			HttpSession session = request.getSession(false);
