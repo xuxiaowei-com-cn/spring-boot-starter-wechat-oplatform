@@ -178,7 +178,9 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 			throws OAuth2AuthenticationException {
 		List<WeChatOplatformWebsiteProperties.WeChatOplatformWebsite> list = weChatOplatformWebsiteProperties.getList();
 		if (list == null) {
-			throw new AppidWeChatOplatformException("appid 未配置");
+			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "appid 未配置",
+					null);
+			throw new AppidWeChatOplatformException(error);
 		}
 
 		for (WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite : list) {
@@ -186,8 +188,8 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 				return weChatOplatformWebsite;
 			}
 		}
-
-		throw new AppidWeChatOplatformException("未匹配到 appid");
+		OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "未匹配到 appid", null);
+		throw new AppidWeChatOplatformException(error);
 	}
 
 	/**
@@ -206,7 +208,9 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 			return UriUtils.encode(redirectUriPrefix + "/" + appid, StandardCharsets.UTF_8);
 		}
 		else {
-			throw new RedirectUriWeChatOplatformException("重定向地址前缀不能为空");
+			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "重定向地址前缀不能为空",
+					null);
+			throw new RedirectUriWeChatOplatformException(error);
 		}
 	}
 
