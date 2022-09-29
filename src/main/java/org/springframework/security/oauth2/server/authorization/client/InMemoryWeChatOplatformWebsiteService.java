@@ -14,15 +14,20 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatOplatformParameterNames;
+import org.springframework.security.oauth2.server.authorization.exception.AppidWeChatOplatformException;
+import org.springframework.security.oauth2.server.authorization.exception.RedirectUriWeChatOplatformException;
 import org.springframework.security.oauth2.server.authorization.exception.RedirectWeChatOplatformException;
 import org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2WeChatOplatformWebsiteEndpointUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,20 +41,10 @@ import java.util.Map;
  */
 public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWebsiteService {
 
-	private final List<WeChatOplatformWebsiteProperties.WeChatOplatformWebsite> weChatOplatformWebsiteList;
+	private final WeChatOplatformWebsiteProperties weChatOplatformWebsiteProperties;
 
-	/**
-	 * 默认 微信开放平台 网站应用 的权限
-	 * <p>
-	 * 若要自定义用户的权限，请开发者自己实现 {@link WeChatOplatformWebsiteService}
-	 */
-	private final String defaultRole;
-
-	public InMemoryWeChatOplatformWebsiteService(
-			List<WeChatOplatformWebsiteProperties.WeChatOplatformWebsite> weChatOplatformWebsiteList,
-			String defaultRole) {
-		this.weChatOplatformWebsiteList = weChatOplatformWebsiteList;
-		this.defaultRole = defaultRole;
+	public InMemoryWeChatOplatformWebsiteService(WeChatOplatformWebsiteProperties weChatOplatformWebsiteProperties) {
+		this.weChatOplatformWebsiteProperties = weChatOplatformWebsiteProperties;
 	}
 
 	@Override
@@ -58,7 +53,8 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 			Object credentials, String unionid, String accessToken, String refreshToken, Integer expiresIn,
 			String scope) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(defaultRole);
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
+				weChatOplatformWebsiteProperties.getDefaultRole());
 		authorities.add(authority);
 		User user = new User(openid, accessToken, authorities);
 
@@ -138,16 +134,51 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 
 	}
 
-	public String getSecretByAppid(String appid) {
-		Assert.notNull(appid, "appid 不能为 null");
-		for (WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite : weChatOplatformWebsiteList) {
+	/**
+	 * 根据 appid 获取 微信开放平台 网站应用属性配置
+	 * @param appid 公众号ID
+	 * @return 返回 微信开放平台 网站应用属性配置
+	 */
+	@Override
+	public WeChatOplatformWebsiteProperties.WeChatOplatformWebsite getWeChatOplatformWebsiteByAppid(String appid) {
+		List<WeChatOplatformWebsiteProperties.WeChatOplatformWebsite> list = weChatOplatformWebsiteProperties.getList();
+		if (list == null) {
+			throw new AppidWeChatOplatformException("appid 未配置");
+		}
+
+		for (WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite : list) {
 			if (appid.equals(weChatOplatformWebsite.getAppid())) {
-				return weChatOplatformWebsite.getSecret();
+				return weChatOplatformWebsite;
 			}
 		}
-		OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.INVALID_ERROR_CODE, "未找到 secret",
-				OAuth2WeChatOplatformWebsiteEndpointUtils.AUTH_CODE2SESSION_URI);
-		throw new OAuth2AuthenticationException(error);
+
+		throw new AppidWeChatOplatformException("未匹配到 appid");
+	}
+
+	/**
+	 * 根据 appid 获取重定向的地址
+	 * @param appid 开放平台 网站应用 ID
+	 * @return 返回重定向的地址
+	 */
+	@Override
+	public String getRedirectUriByAppid(String appid) {
+		WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite = getWeChatOplatformWebsiteByAppid(
+				appid);
+		String redirectUriPrefix = weChatOplatformWebsite.getRedirectUriPrefix();
+
+		if (StringUtils.hasText(redirectUriPrefix)) {
+			return UriUtils.encode(redirectUriPrefix + "/" + appid, StandardCharsets.UTF_8);
+		}
+		else {
+			throw new RedirectUriWeChatOplatformException("重定向地址前缀不能为空");
+		}
+	}
+
+	public String getSecretByAppid(String appid) {
+		Assert.notNull(appid, "appid 不能为 null");
+		WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite = getWeChatOplatformWebsiteByAppid(
+				appid);
+		return weChatOplatformWebsite.getSecret();
 	}
 
 }

@@ -8,8 +8,6 @@ import org.springframework.security.oauth2.server.authorization.client.WeChatOpl
 import org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
-import java.util.Collections;
-
 /**
  * 微信开放平台 网站应用 OAuth 2.0 配置器的实用方法。
  *
@@ -35,12 +33,10 @@ public class OAuth2WeChatOplatformWebsiteConfigurerUtils {
 			weChatOplatformWebsiteService = OAuth2ConfigurerUtils.getOptionalBean(httpSecurity,
 					WeChatOplatformWebsiteService.class);
 			if (weChatOplatformWebsiteService == null) {
-
 				WeChatOplatformWebsiteProperties weChatOplatformWebsiteProperties = OAuth2ConfigurerUtils
 						.getOptionalBean(httpSecurity, WeChatOplatformWebsiteProperties.class);
-
-				weChatOplatformWebsiteService = new InMemoryWeChatOplatformWebsiteService(Collections.emptyList(),
-						weChatOplatformWebsiteProperties.getDefaultRole());
+				weChatOplatformWebsiteService = new InMemoryWeChatOplatformWebsiteService(
+						weChatOplatformWebsiteProperties);
 			}
 		}
 		return weChatOplatformWebsiteService;

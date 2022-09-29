@@ -39,4 +39,18 @@ public interface WeChatOplatformWebsiteService {
 			OAuth2AccessTokenResponse oauth2AccessTokenResponse,
 			WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite);
 
+	/**
+	 * 根据 appid 获取 微信开放平台 网站应用属性配置
+	 * @param appid 公众号ID
+	 * @return 返回 微信开放平台 网站应用属性配置
+	 */
+	WeChatOplatformWebsiteProperties.WeChatOplatformWebsite getWeChatOplatformWebsiteByAppid(String appid);
+
+	/**
+	 * 根据 appid 获取重定向的地址
+	 * @param appid 开放平台 网站应用 ID
+	 * @return 返回重定向的地址
+	 */
+	String getRedirectUriByAppid(String appid);
+
 }

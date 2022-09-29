@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   org.springframework.security.oauth2.server.authorization.http.WeChatOplatformWebsiteAuthorizeHttpFilter,\
   org.springframework.security.oauth2.server.authorization.http.WeChatOplatformWebsiteCodeHttpFilter,\
-  org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.authorization.OAuth2WeChatOplatformWebsiteConfiguration,\
+  org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2WeChatOplatformWebsiteConfiguration,\
   org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties

@@ -1,4 +1,4 @@
-package org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.authorization;
+package org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -30,10 +30,7 @@ public class OAuth2WeChatOplatformWebsiteConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public WeChatOplatformWebsiteService weChatOplatformWebsiteService() {
-		List<WeChatOplatformWebsiteProperties.WeChatOplatformWebsite> weChatOplatformWebsiteList = weChatOplatformWebsiteProperties
-				.getList();
-		String defaultRole = weChatOplatformWebsiteProperties.getDefaultRole();
-		return new InMemoryWeChatOplatformWebsiteService(weChatOplatformWebsiteList, defaultRole);
+		return new InMemoryWeChatOplatformWebsiteService(weChatOplatformWebsiteProperties);
 	}
 
 }
