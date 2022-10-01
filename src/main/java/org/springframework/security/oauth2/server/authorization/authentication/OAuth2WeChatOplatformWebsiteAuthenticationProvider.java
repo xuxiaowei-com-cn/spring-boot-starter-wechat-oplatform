@@ -119,7 +119,7 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 		}
 
 		WeChatOplatformWebsiteTokenResponse weChatOplatformWebsiteTokenResponse = weChatOplatformWebsiteService
-				.getAccessTokenResponse(appid, code, ACCESS_TOKEN_URL);
+				.getAccessTokenResponse(appid, code, ACCESS_TOKEN_URL, remoteAddress, sessionId);
 
 		String openid = weChatOplatformWebsiteTokenResponse.getOpenid();
 		String unionid = weChatOplatformWebsiteTokenResponse.getUnionid();
