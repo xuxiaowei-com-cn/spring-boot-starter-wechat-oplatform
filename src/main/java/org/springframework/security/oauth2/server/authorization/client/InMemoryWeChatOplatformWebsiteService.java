@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.WeChatOplatformWebsiteAuthenticationToken;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatOplatformParameterNames;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
@@ -104,6 +106,7 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 	 * @param appid AppID
 	 * @param code 授权码
 	 * @param accessTokenUrl 通过 code 换取网页授权 access_token 的 URL
+	 * @param userinfoUrl 通过 access_token 获取用户个人信息
 	 * @param remoteAddress 用户IP
 	 * @param sessionId SessionID
 	 * @return 返回 微信授权结果
@@ -114,7 +117,7 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 	 */
 	@Override
 	public WeChatOplatformWebsiteTokenResponse getAccessTokenResponse(String appid, String code, String accessTokenUrl,
-			String remoteAddress, String sessionId) throws OAuth2AuthenticationException {
+			String userinfoUrl, String remoteAddress, String sessionId) throws OAuth2AuthenticationException {
 		Map<String, String> uriVariables = new HashMap<>(8);
 		uriVariables.put(OAuth2WeChatOplatformParameterNames.APPID, appid);
 
@@ -124,6 +127,8 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 		uriVariables.put(OAuth2WeChatOplatformParameterNames.CODE, code);
 
 		RestTemplate restTemplate = new RestTemplate();
+		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+		messageConverters.set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
 		String forObject = restTemplate.getForObject(accessTokenUrl, String.class, uriVariables);
 
@@ -141,11 +146,34 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 		}
 
 		String openid = weChatOplatformWebsiteTokenResponse.getOpenid();
+		String accessToken = weChatOplatformWebsiteTokenResponse.getAccessToken();
 		if (openid == null) {
 			OAuth2Error error = new OAuth2Error(weChatOplatformWebsiteTokenResponse.getErrcode(),
 					weChatOplatformWebsiteTokenResponse.getErrmsg(),
 					OAuth2WeChatOplatformWebsiteEndpointUtils.AUTH_CODE2SESSION_URI);
 			throw new OAuth2AuthenticationException(error);
+		}
+
+		Map<String, String> map = new HashMap<>(4);
+		map.put(OAuth2WeChatOplatformParameterNames.OPENID, openid);
+		map.put(OAuth2ParameterNames.ACCESS_TOKEN, accessToken);
+		String string = restTemplate.getForObject(userinfoUrl, String.class, map);
+		try {
+			WeChatOplatformWebsiteTokenResponse response = objectMapper.readValue(string,
+					WeChatOplatformWebsiteTokenResponse.class);
+			weChatOplatformWebsiteTokenResponse.setNickname(response.getNickname());
+			weChatOplatformWebsiteTokenResponse.setSex(response.getSex());
+			weChatOplatformWebsiteTokenResponse.setLanguage(response.getLanguage());
+			weChatOplatformWebsiteTokenResponse.setProvince(response.getProvince());
+			weChatOplatformWebsiteTokenResponse.setCity(response.getCity());
+			weChatOplatformWebsiteTokenResponse.setCountry(response.getCountry());
+			weChatOplatformWebsiteTokenResponse.setHeadimgurl(response.getHeadimgurl());
+			weChatOplatformWebsiteTokenResponse.setPrivilege(response.getPrivilege());
+		}
+		catch (JsonProcessingException e) {
+			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE,
+					"使用 微信开放平台 网站应用 获取用户个人信息异常：", OAuth2WeChatOplatformWebsiteEndpointUtils.AUTH_CODE2SESSION_URI);
+			throw new OAuth2AuthenticationException(error, e);
 		}
 
 		return weChatOplatformWebsiteTokenResponse;
