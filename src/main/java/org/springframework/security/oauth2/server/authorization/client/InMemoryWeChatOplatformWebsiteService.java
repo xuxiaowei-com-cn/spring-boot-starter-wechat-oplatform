@@ -97,12 +97,14 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 	 * @param appid AppID
 	 * @param code 授权码
 	 * @param accessTokenUrl 通过 code 换取网页授权 access_token 的 URL
+	 * @param remoteAddress 用户IP
+	 * @param sessionId SessionID
 	 * @return 返回 微信授权结果
 	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常
 	 */
 	@Override
-	public WeChatOplatformWebsiteTokenResponse getAccessTokenResponse(String appid, String code, String accessTokenUrl)
-			throws OAuth2AuthenticationException {
+	public WeChatOplatformWebsiteTokenResponse getAccessTokenResponse(String appid, String code, String accessTokenUrl,
+			String remoteAddress, String sessionId) throws OAuth2AuthenticationException {
 		Map<String, String> uriVariables = new HashMap<>(8);
 		uriVariables.put(OAuth2WeChatOplatformParameterNames.APPID, appid);
 
