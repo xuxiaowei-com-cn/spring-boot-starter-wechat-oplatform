@@ -6,7 +6,10 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2TokenEndpointConfigurer;
 import org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import java.util.Map;
 
@@ -36,7 +39,10 @@ public interface WeChatOplatformWebsiteService {
 	 * @param expiresIn 过期时间
 	 * @param scope 授权范围
 	 * @return 返回 认证信息
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
 	 */
 	AbstractAuthenticationToken authenticationToken(Authentication clientPrincipal,
 			Map<String, Object> additionalParameters, Object details, String appid, String code, String openid,
@@ -51,7 +57,10 @@ public interface WeChatOplatformWebsiteService {
 	 * @param remoteAddress 用户IP
 	 * @param sessionId SessionID
 	 * @return 返回 微信授权结果
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
 	 */
 	WeChatOplatformWebsiteTokenResponse getAccessTokenResponse(String appid, String code, String accessTokenUrl,
 			String remoteAddress, String sessionId) throws OAuth2AuthenticationException;
@@ -63,7 +72,10 @@ public interface WeChatOplatformWebsiteService {
 	 * @param uriVariables 参数
 	 * @param oauth2AccessTokenResponse OAuth2.1 授权 Token
 	 * @param weChatOplatformWebsite 微信开放平台 网站应用 配置
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
 	 */
 	void sendRedirect(HttpServletRequest request, HttpServletResponse response, Map<String, String> uriVariables,
 			OAuth2AccessTokenResponse oauth2AccessTokenResponse,
@@ -74,7 +86,10 @@ public interface WeChatOplatformWebsiteService {
 	 * 根据 appid 获取 微信开放平台 网站应用属性配置
 	 * @param appid 公众号ID
 	 * @return 返回 微信开放平台 网站应用属性配置
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
 	 */
 	WeChatOplatformWebsiteProperties.WeChatOplatformWebsite getWeChatOplatformWebsiteByAppid(String appid)
 			throws OAuth2AuthenticationException;
@@ -83,7 +98,10 @@ public interface WeChatOplatformWebsiteService {
 	 * 根据 appid 获取重定向的地址
 	 * @param appid 开放平台 网站应用 ID
 	 * @return 返回重定向的地址
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
 	 */
 	String getRedirectUriByAppid(String appid) throws OAuth2AuthenticationException;
 
@@ -95,7 +113,10 @@ public interface WeChatOplatformWebsiteService {
 	 * @param tokenUrl Token URL
 	 * @param uriVariables 参数
 	 * @return 返回 OAuth 2.1 授权 Token
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
 	 */
 	OAuth2AccessTokenResponse getOAuth2AccessTokenResponse(HttpServletRequest request, HttpServletResponse response,
 			String tokenUrlPrefix, String tokenUrl, Map<String, String> uriVariables)
