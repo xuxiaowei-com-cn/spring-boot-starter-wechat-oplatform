@@ -55,6 +55,7 @@ public interface WeChatOplatformWebsiteService {
 	 * @param appid AppID
 	 * @param code 授权码
 	 * @param accessTokenUrl 通过 code 换取网页授权 access_token 的 URL
+	 * @param userinfoUrl 通过 access_token 获取用户个人信息
 	 * @param remoteAddress 用户IP
 	 * @param sessionId SessionID
 	 * @return 返回 微信授权结果
@@ -64,7 +65,7 @@ public interface WeChatOplatformWebsiteService {
 	 * 拦截处理此异常
 	 */
 	WeChatOplatformWebsiteTokenResponse getAccessTokenResponse(String appid, String code, String accessTokenUrl,
-			String remoteAddress, String sessionId) throws OAuth2AuthenticationException;
+			String userinfoUrl, String remoteAddress, String sessionId) throws OAuth2AuthenticationException;
 
 	/**
 	 * 授权成功重定向方法

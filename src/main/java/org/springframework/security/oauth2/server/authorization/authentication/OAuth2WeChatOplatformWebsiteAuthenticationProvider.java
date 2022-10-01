@@ -60,6 +60,12 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 	 */
 	public static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={appid}&secret={secret}&code={code}&grant_type=authorization_code";
 
+	/**
+	 * @see <a href=
+	 * "https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html">微信登录功能/网站应用微信登录开发指南</a>
+	 */
+	public static final String USERINFO_URL = "https://api.weixin.qq.com/sns/userinfo?openid={openid}&access_token={access_token}";
+
 	private final HttpSecurity builder;
 
 	@Setter
@@ -119,7 +125,7 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 		}
 
 		WeChatOplatformWebsiteTokenResponse weChatOplatformWebsiteTokenResponse = weChatOplatformWebsiteService
-				.getAccessTokenResponse(appid, code, ACCESS_TOKEN_URL, remoteAddress, sessionId);
+				.getAccessTokenResponse(appid, code, ACCESS_TOKEN_URL, USERINFO_URL, remoteAddress, sessionId);
 
 		String openid = weChatOplatformWebsiteTokenResponse.getOpenid();
 		String unionid = weChatOplatformWebsiteTokenResponse.getUnionid();
