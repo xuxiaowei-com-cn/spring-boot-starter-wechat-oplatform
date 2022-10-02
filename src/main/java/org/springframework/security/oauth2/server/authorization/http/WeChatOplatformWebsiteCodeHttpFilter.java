@@ -41,7 +41,7 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 
 	public static final String PREFIX_URL = "/wechat-oplatform/website/code";
 
-	public static final String TOKEN_URL = "/oauth2/token?grant_type={grant_type}&appid={appid}&code={code}&state={state}&client_id={client_id}&client_secret={client_secret}&remote_address={remote_address}&session_id={session_id}";
+	public static final String TOKEN_URL = "/oauth2/token?grant_type={grant_type}&appid={appid}&code={code}&state={state}&client_id={client_id}&client_secret={client_secret}&remote_address={remote_address}&session_id={session_id}&binding={binding}";
 
 	private WeChatOplatformWebsiteProperties weChatOplatformWebsiteProperties;
 
@@ -77,6 +77,13 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 			String state = request.getParameter(OAuth2ParameterNames.STATE);
 			String grantType = WECHAT_OPLATFORM_WEBSITE.getValue();
 
+			boolean valid = weChatOplatformWebsiteService.stateValid(request, response, appid, code, state);
+			if (!valid) {
+				return;
+			}
+
+			String binding = weChatOplatformWebsiteService.getBinding(request, response, appid, code, state);
+
 			WeChatOplatformWebsiteProperties.WeChatOplatformWebsite oplatformWebsite = weChatOplatformWebsiteService
 					.getWeChatOplatformWebsiteByAppid(appid);
 
@@ -98,6 +105,7 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 			uriVariables.put(OAuth2ParameterNames.CLIENT_SECRET, clientSecret);
 			uriVariables.put(OAuth2WeChatOplatformParameterNames.REMOTE_ADDRESS, remoteHost);
 			uriVariables.put(OAuth2WeChatOplatformParameterNames.SESSION_ID, session == null ? "" : session.getId());
+			uriVariables.put(OAuth2WeChatOplatformParameterNames.BINDING, binding);
 
 			OAuth2AccessTokenResponse oauth2AccessTokenResponse = weChatOplatformWebsiteService
 					.getOAuth2AccessTokenResponse(request, response, tokenUrlPrefix, TOKEN_URL, uriVariables);

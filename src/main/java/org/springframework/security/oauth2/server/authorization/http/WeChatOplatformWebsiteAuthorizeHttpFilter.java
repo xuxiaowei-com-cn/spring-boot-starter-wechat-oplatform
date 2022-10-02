@@ -10,13 +10,13 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatOplatformParameterNames;
 import org.springframework.security.oauth2.server.authorization.client.WeChatOplatformWebsiteService;
 import org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * 微信开放平台 网站应用 跳转到微信授权页面
@@ -71,12 +71,16 @@ public class WeChatOplatformWebsiteAuthorizeHttpFilter extends HttpFilter {
 
 			String redirectUri = weChatOplatformWebsiteService.getRedirectUriByAppid(appid);
 
+			String binding = request.getParameter(OAuth2WeChatOplatformParameterNames.BINDING);
 			String scope = request.getParameter(OAuth2ParameterNames.SCOPE);
 			if (!SNSAPI_LOGIN.equals(scope)) {
 				scope = SNSAPI_LOGIN;
 			}
 
-			String state = UUID.randomUUID().toString();
+			String state = weChatOplatformWebsiteService.stateGenerate(request, response, appid);
+			weChatOplatformWebsiteService.storeBinding(request, response, appid, state, binding);
+			weChatOplatformWebsiteService.storeUsers(request, response, appid, state, binding);
+
 			String url = String.format(AUTHORIZE_URL, appid, redirectUri, scope, state);
 
 			log.info("redirectUrl：{}", url);

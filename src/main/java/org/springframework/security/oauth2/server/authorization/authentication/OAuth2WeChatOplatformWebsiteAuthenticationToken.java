@@ -57,6 +57,12 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationToken extends OAuth2Autho
 	@Getter
 	private final String sessionId;
 
+	@Getter
+	private final String state;
+
+	@Getter
+	private final String binding;
+
 	/**
 	 * 子类构造函数。
 	 * @param clientPrincipal 经过身份验证的客户端主体
@@ -66,10 +72,13 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationToken extends OAuth2Autho
 	 * "https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html">微信登录功能/网站应用微信登录开发指南</a>
 	 * @param scope {@link OAuth2ParameterNames#SCOPE}，授权范围，<a href=
 	 * "https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html">微信登录功能/网站应用微信登录开发指南</a>
+	 * @param remoteAddress 用户IP
+	 * @param sessionId SessionID
+	 * @param binding 是否绑定，需要使用者自己去拓展
 	 */
 	public OAuth2WeChatOplatformWebsiteAuthenticationToken(Authentication clientPrincipal,
 			Map<String, Object> additionalParameters, String appid, String code, String scope, String remoteAddress,
-			String sessionId) {
+			String sessionId, String state, String binding) {
 		super(OAuth2WeChatOplatformWebsiteAuthenticationToken.WECHAT_OPLATFORM_WEBSITE, clientPrincipal,
 				additionalParameters);
 		Assert.hasText(code, "appid 不能为空");
@@ -79,6 +88,8 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationToken extends OAuth2Autho
 		this.scope = scope;
 		this.remoteAddress = remoteAddress;
 		this.sessionId = sessionId;
+		this.state = state;
+		this.binding = binding;
 	}
 
 }

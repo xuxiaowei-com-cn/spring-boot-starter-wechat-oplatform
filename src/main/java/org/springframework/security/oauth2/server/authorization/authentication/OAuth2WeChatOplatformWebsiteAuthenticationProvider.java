@@ -83,6 +83,7 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 		builder.authenticationProvider(this);
 	}
 
+	@SuppressWarnings("AlibabaMethodTooLong")
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
@@ -93,6 +94,9 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 
 		String appid = grantAuthenticationToken.getAppid();
 		String code = grantAuthenticationToken.getCode();
+		String state = grantAuthenticationToken.getState();
+		String binding = grantAuthenticationToken.getBinding();
+
 		Map<String, Object> additionalParameters = grantAuthenticationToken.getAdditionalParameters();
 		Set<String> requestedScopes = StringUtils.commaDelimitedListToSet(grantAuthenticationToken.getScope());
 
@@ -125,7 +129,8 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 		}
 
 		WeChatOplatformWebsiteTokenResponse weChatOplatformWebsiteTokenResponse = weChatOplatformWebsiteService
-				.getAccessTokenResponse(appid, code, ACCESS_TOKEN_URL, USERINFO_URL, remoteAddress, sessionId);
+				.getAccessTokenResponse(appid, code, state, binding, ACCESS_TOKEN_URL, USERINFO_URL, remoteAddress,
+						sessionId);
 
 		String openid = weChatOplatformWebsiteTokenResponse.getOpenid();
 		String unionid = weChatOplatformWebsiteTokenResponse.getUnionid();

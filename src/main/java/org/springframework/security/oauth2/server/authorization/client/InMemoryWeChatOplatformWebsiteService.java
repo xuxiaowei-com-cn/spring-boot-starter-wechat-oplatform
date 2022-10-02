@@ -39,10 +39,7 @@ import org.springframework.web.util.UriUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 微信开放平台 网站应用 账户服务接口 基于内存的实现
@@ -59,52 +56,166 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 	}
 
 	/**
-	 * 构建 微信开放平台 网站应用 认证信息
-	 * @param clientPrincipal 经过身份验证的客户端主体
-	 * @param additionalParameters 附加参数
-	 * @param details 登录信息
-	 * @param appid AppID
-	 * @param code 授权码
-	 * @param openid 用户唯一标识
-	 * @param credentials 证书
-	 * @param unionid 多账户用户唯一标识
-	 * @param accessToken 授权凭证
-	 * @param refreshToken 刷新凭证
-	 * @param expiresIn 过期时间
-	 * @param scope 授权范围
-	 * @return 返回 认证信息
+	 * 根据 appid 获取重定向的地址
+	 * @param appid 开放平台 网站应用 ID
+	 * @return 返回重定向的地址
 	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
 	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
 	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
 	 * 拦截处理此异常
 	 */
 	@Override
-	public AbstractAuthenticationToken authenticationToken(Authentication clientPrincipal,
-			Map<String, Object> additionalParameters, Object details, String appid, String code, String openid,
-			Object credentials, String unionid, String accessToken, String refreshToken, Integer expiresIn,
-			String scope) throws OAuth2AuthenticationException {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
-				weChatOplatformWebsiteProperties.getDefaultRole());
-		authorities.add(authority);
-		User user = new User(openid, accessToken, authorities);
+	public String getRedirectUriByAppid(String appid) throws OAuth2AuthenticationException {
+		WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite = getWeChatOplatformWebsiteByAppid(
+				appid);
+		String redirectUriPrefix = weChatOplatformWebsite.getRedirectUriPrefix();
 
-		UsernamePasswordAuthenticationToken principal = UsernamePasswordAuthenticationToken.authenticated(user, null,
-				user.getAuthorities());
+		if (StringUtils.hasText(redirectUriPrefix)) {
+			return UriUtils.encode(redirectUriPrefix + "/" + appid, StandardCharsets.UTF_8);
+		}
+		else {
+			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "重定向地址前缀不能为空",
+					null);
+			throw new RedirectUriWeChatOplatformException(error);
+		}
+	}
 
-		WeChatOplatformWebsiteAuthenticationToken authenticationToken = new WeChatOplatformWebsiteAuthenticationToken(
-				authorities, clientPrincipal, principal, user, additionalParameters, details, appid, code, openid);
+	/**
+	 * 生成状态码
+	 * @param request 请求
+	 * @param response 响应
+	 * @param appid 开放平台 网站应用 ID
+	 * @return 返回生成的授权码
+	 */
+	@Override
+	public String stateGenerate(HttpServletRequest request, HttpServletResponse response, String appid) {
+		return UUID.randomUUID().toString();
+	}
 
-		authenticationToken.setCredentials(credentials);
-		authenticationToken.setUnionid(unionid);
+	/**
+	 * 储存绑定参数
+	 * @param request 请求
+	 * @param response 响应
+	 * @param appid 开放平台 网站应用 ID
+	 * @param state 状态码
+	 * @param binding 绑定参数
+	 */
+	@Override
+	public void storeBinding(HttpServletRequest request, HttpServletResponse response, String appid, String state,
+			String binding) {
 
-		return authenticationToken;
+	}
+
+	/**
+	 * 储存操作用户
+	 * @param request 请求
+	 * @param response 响应
+	 * @param appid 开放平台 网站应用 ID
+	 * @param state 状态码
+	 * @param binding 绑定参数
+	 */
+	@Override
+	public void storeUsers(HttpServletRequest request, HttpServletResponse response, String appid, String state,
+			String binding) {
+
+	}
+
+	/**
+	 * 状态码验证（返回 {@link Boolean#FALSE} 时，将终止后面需要执行的代码）
+	 * @param request 请求
+	 * @param response 响应
+	 * @param appid 开放平台 网站应用 ID
+	 * @param code 授权码
+	 * @param state 状态码
+	 * @return 返回 状态码验证结果
+	 */
+	@Override
+	public boolean stateValid(HttpServletRequest request, HttpServletResponse response, String appid, String code,
+			String state) {
+		return true;
+	}
+
+	/**
+	 * 获取 绑定参数
+	 * @param request 请求
+	 * @param response 响应
+	 * @param appid 开放平台 网站应用 ID
+	 * @param code 授权码
+	 * @param state 状态码
+	 * @return 返回 绑定参数
+	 */
+	@Override
+	public String getBinding(HttpServletRequest request, HttpServletResponse response, String appid, String code,
+			String state) {
+		return null;
+	}
+
+	/**
+	 * 根据 appid 获取 微信开放平台 网站应用属性配置
+	 * @param appid 公众号ID
+	 * @return 返回 微信开放平台 网站应用属性配置
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
+	 */
+	@Override
+	public WeChatOplatformWebsiteProperties.WeChatOplatformWebsite getWeChatOplatformWebsiteByAppid(String appid)
+			throws OAuth2AuthenticationException {
+		List<WeChatOplatformWebsiteProperties.WeChatOplatformWebsite> list = weChatOplatformWebsiteProperties.getList();
+		if (list == null) {
+			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "appid 未配置",
+					null);
+			throw new AppidWeChatOplatformException(error);
+		}
+
+		for (WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite : list) {
+			if (appid.equals(weChatOplatformWebsite.getAppid())) {
+				return weChatOplatformWebsite;
+			}
+		}
+		OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "未匹配到 appid", null);
+		throw new AppidWeChatOplatformException(error);
+	}
+
+	/**
+	 * 获取 OAuth 2.1 授权 Token（如果不想执行此方法后面的内容，可返回 null）
+	 * @param request 请求
+	 * @param response 响应
+	 * @param tokenUrlPrefix 获取 Token URL 前缀
+	 * @param tokenUrl Token URL
+	 * @param uriVariables 参数
+	 * @return 返回 OAuth 2.1 授权 Token
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
+	 */
+	@SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
+	@Override
+	public OAuth2AccessTokenResponse getOAuth2AccessTokenResponse(HttpServletRequest request,
+			HttpServletResponse response, String tokenUrlPrefix, String tokenUrl, Map<String, String> uriVariables)
+			throws OAuth2AuthenticationException {
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+		messageConverters.add(5, new OAuth2AccessTokenResponseHttpMessageConverter());
+
+		return restTemplate.postForObject(tokenUrlPrefix + tokenUrl, httpEntity, OAuth2AccessTokenResponse.class,
+				uriVariables);
 	}
 
 	/**
 	 * 根据 AppID、code、accessTokenUrl 获取Token
 	 * @param appid AppID
 	 * @param code 授权码
+	 * @param state 状态码
+	 * @param binding 是否绑定，需要使用者自己去拓展
 	 * @param accessTokenUrl 通过 code 换取网页授权 access_token 的 URL
 	 * @param userinfoUrl 通过 access_token 获取用户个人信息
 	 * @param remoteAddress 用户IP
@@ -116,8 +227,9 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 	 * 拦截处理此异常
 	 */
 	@Override
-	public WeChatOplatformWebsiteTokenResponse getAccessTokenResponse(String appid, String code, String accessTokenUrl,
-			String userinfoUrl, String remoteAddress, String sessionId) throws OAuth2AuthenticationException {
+	public WeChatOplatformWebsiteTokenResponse getAccessTokenResponse(String appid, String code, String state,
+			String binding, String accessTokenUrl, String userinfoUrl, String remoteAddress, String sessionId)
+			throws OAuth2AuthenticationException {
 		Map<String, String> uriVariables = new HashMap<>(8);
 		uriVariables.put(OAuth2WeChatOplatformParameterNames.APPID, appid);
 
@@ -180,6 +292,49 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 	}
 
 	/**
+	 * 构建 微信开放平台 网站应用 认证信息
+	 * @param clientPrincipal 经过身份验证的客户端主体
+	 * @param additionalParameters 附加参数
+	 * @param details 登录信息
+	 * @param appid AppID
+	 * @param code 授权码
+	 * @param openid 用户唯一标识
+	 * @param credentials 证书
+	 * @param unionid 多账户用户唯一标识
+	 * @param accessToken 授权凭证
+	 * @param refreshToken 刷新凭证
+	 * @param expiresIn 过期时间
+	 * @param scope 授权范围
+	 * @return 返回 认证信息
+	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
+	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
+	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
+	 * 拦截处理此异常
+	 */
+	@Override
+	public AbstractAuthenticationToken authenticationToken(Authentication clientPrincipal,
+			Map<String, Object> additionalParameters, Object details, String appid, String code, String openid,
+			Object credentials, String unionid, String accessToken, String refreshToken, Integer expiresIn,
+			String scope) throws OAuth2AuthenticationException {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
+				weChatOplatformWebsiteProperties.getDefaultRole());
+		authorities.add(authority);
+		User user = new User(openid, accessToken, authorities);
+
+		UsernamePasswordAuthenticationToken principal = UsernamePasswordAuthenticationToken.authenticated(user, null,
+				user.getAuthorities());
+
+		WeChatOplatformWebsiteAuthenticationToken authenticationToken = new WeChatOplatformWebsiteAuthenticationToken(
+				authorities, clientPrincipal, principal, user, additionalParameters, details, appid, code, openid);
+
+		authenticationToken.setCredentials(credentials);
+		authenticationToken.setUnionid(unionid);
+
+		return authenticationToken;
+	}
+
+	/**
 	 * 授权成功重定向方法
 	 * @param request 请求
 	 * @param response 响应
@@ -209,90 +364,6 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 			throw new RedirectWeChatOplatformException(error, e);
 		}
 
-	}
-
-	/**
-	 * 根据 appid 获取 微信开放平台 网站应用属性配置
-	 * @param appid 公众号ID
-	 * @return 返回 微信开放平台 网站应用属性配置
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
-	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
-	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
-	 * 拦截处理此异常
-	 */
-	@Override
-	public WeChatOplatformWebsiteProperties.WeChatOplatformWebsite getWeChatOplatformWebsiteByAppid(String appid)
-			throws OAuth2AuthenticationException {
-		List<WeChatOplatformWebsiteProperties.WeChatOplatformWebsite> list = weChatOplatformWebsiteProperties.getList();
-		if (list == null) {
-			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "appid 未配置",
-					null);
-			throw new AppidWeChatOplatformException(error);
-		}
-
-		for (WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite : list) {
-			if (appid.equals(weChatOplatformWebsite.getAppid())) {
-				return weChatOplatformWebsite;
-			}
-		}
-		OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "未匹配到 appid", null);
-		throw new AppidWeChatOplatformException(error);
-	}
-
-	/**
-	 * 根据 appid 获取重定向的地址
-	 * @param appid 开放平台 网站应用 ID
-	 * @return 返回重定向的地址
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
-	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
-	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
-	 * 拦截处理此异常
-	 */
-	@Override
-	public String getRedirectUriByAppid(String appid) throws OAuth2AuthenticationException {
-		WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite = getWeChatOplatformWebsiteByAppid(
-				appid);
-		String redirectUriPrefix = weChatOplatformWebsite.getRedirectUriPrefix();
-
-		if (StringUtils.hasText(redirectUriPrefix)) {
-			return UriUtils.encode(redirectUriPrefix + "/" + appid, StandardCharsets.UTF_8);
-		}
-		else {
-			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "重定向地址前缀不能为空",
-					null);
-			throw new RedirectUriWeChatOplatformException(error);
-		}
-	}
-
-	/**
-	 * 获取 OAuth 2.1 授权 Token（如果不想执行此方法后面的内容，可返回 null）
-	 * @param request 请求
-	 * @param response 响应
-	 * @param tokenUrlPrefix 获取 Token URL 前缀
-	 * @param tokenUrl Token URL
-	 * @param uriVariables 参数
-	 * @return 返回 OAuth 2.1 授权 Token
-	 * @throws OAuth2AuthenticationException OAuth 2.1 可处理的异常，可使用
-	 * {@link OAuth2AuthorizationServerConfigurer#tokenEndpoint(Customizer)} 中的
-	 * {@link OAuth2TokenEndpointConfigurer#errorResponseHandler(AuthenticationFailureHandler)}
-	 * 拦截处理此异常
-	 */
-	@Override
-	public OAuth2AccessTokenResponse getOAuth2AccessTokenResponse(HttpServletRequest request,
-			HttpServletResponse response, String tokenUrlPrefix, String tokenUrl, Map<String, String> uriVariables)
-			throws OAuth2AuthenticationException {
-
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
-
-		RestTemplate restTemplate = new RestTemplate();
-
-		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
-		messageConverters.add(5, new OAuth2AccessTokenResponseHttpMessageConverter());
-
-		return restTemplate.postForObject(tokenUrlPrefix + tokenUrl, httpEntity, OAuth2AccessTokenResponse.class,
-				uriVariables);
 	}
 
 	public String getSecretByAppid(String appid) {
