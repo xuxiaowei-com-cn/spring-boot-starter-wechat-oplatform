@@ -64,6 +64,11 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationConverter implements Auth
 		// scope
 		String scope = parameters.getFirst(OAuth2ParameterNames.SCOPE);
 
+		String state = parameters.getFirst(OAuth2ParameterNames.STATE);
+
+		// 是否绑定，需要使用者自己去拓展
+		String binding = request.getParameter(OAuth2WeChatOplatformParameterNames.BINDING);
+
 		Map<String, Object> additionalParameters = new HashMap<>(4);
 		parameters.forEach((key, value) -> {
 			if (!key.equals(OAuth2ParameterNames.GRANT_TYPE) && !key.equals(OAuth2ParameterNames.CLIENT_ID)
@@ -71,7 +76,8 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationConverter implements Auth
 					&& !key.equals(OAuth2ParameterNames.CLIENT_SECRET)
 					&& !key.equals(OAuth2WeChatOplatformParameterNames.APPID) && !key.equals(OAuth2ParameterNames.SCOPE)
 					&& !OAuth2WeChatOplatformParameterNames.REMOTE_ADDRESS.equals(key)
-					&& !OAuth2WeChatOplatformParameterNames.SESSION_ID.equals(key)) {
+					&& !OAuth2WeChatOplatformParameterNames.SESSION_ID.equals(key)
+					&& !OAuth2WeChatOplatformParameterNames.BINDING.equals(key)) {
 				additionalParameters.put(key, value.get(0));
 			}
 		});
@@ -80,7 +86,7 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationConverter implements Auth
 		String sessionId = request.getParameter(OAuth2WeChatOplatformParameterNames.SESSION_ID);
 
 		return new OAuth2WeChatOplatformWebsiteAuthenticationToken(clientPrincipal, additionalParameters, appid, code,
-				scope, remoteAddress, sessionId);
+				scope, remoteAddress, sessionId, state, binding);
 	}
 
 }
