@@ -147,6 +147,18 @@
 
 ## [示例项目](https://gitee.com/xuxiaowei-com-cn/wechat-oplatform-example)
 
+## 批量添加远端仓库地址
+
+<details>
+<summary>点击展开</summary>
+git remote add gitee https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform.git
+git remote add gitlab https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform.git
+git remote add jihulab https://jihulab.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform.git
+git remote add github https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform.git
+git remote add gitcode https://gitcode.net/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform.git
+git remote add gitlink https://gitlink.org.cn/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform.git
+</details>
+
 ## 参考文档
 
 - [微信登录功能 - 网站应用微信登录开发指南](https://developers.weixin.qq.com/doc/oplatform/Website_App/WeChat_Login/Wechat_Login.html)
