@@ -236,7 +236,7 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 		String secret = getSecretByAppid(appid);
 
 		uriVariables.put(OAuth2WeChatOplatformParameterNames.SECRET, secret);
-		uriVariables.put(OAuth2WeChatOplatformParameterNames.CODE, code);
+		uriVariables.put(OAuth2ParameterNames.CODE, code);
 
 		RestTemplate restTemplate = new RestTemplate();
 		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
