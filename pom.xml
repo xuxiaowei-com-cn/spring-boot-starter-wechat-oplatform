@@ -121,7 +121,6 @@
         <url>https://github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform</url>
         <connection>scm:git:https://git@github.com/xuxiaowei-com-cn/spring-boot-starter-wechat-oplatform.git
         </connection>
-        <developerConnection>http://xuxiaowei.com.cn</developerConnection>
     </scm>
 
     <issueManagement>
