@@ -39,7 +39,7 @@ public class WeChatOplatformWebsiteTokenResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
+	 * 授权Token
 	 */
 	@JsonProperty("access_token")
 	private String accessToken;
