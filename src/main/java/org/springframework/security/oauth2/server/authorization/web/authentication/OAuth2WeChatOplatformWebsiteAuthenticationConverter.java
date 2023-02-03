@@ -76,8 +76,10 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationConverter implements Auth
 		// appid (REQUIRED)
 		String appid = parameters.getFirst(OAuth2WeChatOplatformWebsiteParameterNames.APPID);
 
-		if (!StringUtils.hasText(appid) || parameters.get(OAuth2WeChatOplatformWebsiteParameterNames.APPID).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2WeChatOplatformWebsiteParameterNames.APPID,
+		if (!StringUtils.hasText(appid)
+				|| parameters.get(OAuth2WeChatOplatformWebsiteParameterNames.APPID).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST,
+					OAuth2WeChatOplatformWebsiteParameterNames.APPID,
 					OAuth2WeChatOplatformWebsiteEndpointUtils.AUTH_CODE2SESSION_URI);
 		}
 
@@ -94,7 +96,8 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationConverter implements Auth
 			if (!key.equals(OAuth2ParameterNames.GRANT_TYPE) && !key.equals(OAuth2ParameterNames.CLIENT_ID)
 					&& !key.equals(OAuth2ParameterNames.CODE) && !key.equals(OAuth2ParameterNames.REDIRECT_URI)
 					&& !key.equals(OAuth2ParameterNames.CLIENT_SECRET)
-					&& !key.equals(OAuth2WeChatOplatformWebsiteParameterNames.APPID) && !key.equals(OAuth2ParameterNames.SCOPE)
+					&& !key.equals(OAuth2WeChatOplatformWebsiteParameterNames.APPID)
+					&& !key.equals(OAuth2ParameterNames.SCOPE)
 					&& !OAuth2WeChatOplatformWebsiteParameterNames.REMOTE_ADDRESS.equals(key)
 					&& !OAuth2WeChatOplatformWebsiteParameterNames.SESSION_ID.equals(key)
 					&& !OAuth2WeChatOplatformWebsiteParameterNames.BINDING.equals(key)) {

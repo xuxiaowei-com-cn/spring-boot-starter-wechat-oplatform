@@ -124,7 +124,8 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 			uriVariables.put(OAuth2ParameterNames.CLIENT_ID, clientId);
 			uriVariables.put(OAuth2ParameterNames.CLIENT_SECRET, clientSecret);
 			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.REMOTE_ADDRESS, remoteHost);
-			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.SESSION_ID, session == null ? "" : session.getId());
+			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.SESSION_ID,
+					session == null ? "" : session.getId());
 			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.BINDING, binding);
 
 			OAuth2AccessTokenResponse oauth2AccessTokenResponse = weChatOplatformWebsiteService
