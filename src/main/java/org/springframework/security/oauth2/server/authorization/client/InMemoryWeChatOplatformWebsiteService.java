@@ -9,9 +9,9 @@ package org.springframework.security.oauth2.server.authorization.client;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,13 +43,13 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatOplatformParameterNames;
+import org.springframework.security.oauth2.core.endpoint.OAuth2WeChatOplatformWebsiteParameterNames;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2TokenEndpointConfigurer;
-import org.springframework.security.oauth2.server.authorization.exception.AppidWeChatOplatformException;
-import org.springframework.security.oauth2.server.authorization.exception.RedirectUriWeChatOplatformException;
-import org.springframework.security.oauth2.server.authorization.exception.RedirectWeChatOplatformException;
+import org.springframework.security.oauth2.server.authorization.exception.AppidWeChatOplatformWebsiteException;
+import org.springframework.security.oauth2.server.authorization.exception.RedirectUriWeChatOplatformWebsiteException;
+import org.springframework.security.oauth2.server.authorization.exception.RedirectWeChatOplatformWebsiteException;
 import org.springframework.security.oauth2.server.authorization.properties.WeChatOplatformWebsiteProperties;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2WeChatOplatformWebsiteEndpointUtils;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -97,7 +97,7 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 		else {
 			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "重定向地址前缀不能为空",
 					null);
-			throw new RedirectUriWeChatOplatformException(error);
+			throw new RedirectUriWeChatOplatformWebsiteException(error);
 		}
 	}
 
@@ -187,7 +187,7 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 		if (list == null) {
 			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "appid 未配置",
 					null);
-			throw new AppidWeChatOplatformException(error);
+			throw new AppidWeChatOplatformWebsiteException(error);
 		}
 
 		for (WeChatOplatformWebsiteProperties.WeChatOplatformWebsite weChatOplatformWebsite : list) {
@@ -196,7 +196,7 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 			}
 		}
 		OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE, "未匹配到 appid", null);
-		throw new AppidWeChatOplatformException(error);
+		throw new AppidWeChatOplatformWebsiteException(error);
 	}
 
 	/**
@@ -252,11 +252,11 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 			String binding, String accessTokenUrl, String userinfoUrl, String remoteAddress, String sessionId)
 			throws OAuth2AuthenticationException {
 		Map<String, String> uriVariables = new HashMap<>(8);
-		uriVariables.put(OAuth2WeChatOplatformParameterNames.APPID, appid);
+		uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.APPID, appid);
 
 		String secret = getSecretByAppid(appid);
 
-		uriVariables.put(OAuth2WeChatOplatformParameterNames.SECRET, secret);
+		uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.SECRET, secret);
 		uriVariables.put(OAuth2ParameterNames.CODE, code);
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -289,7 +289,7 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 		}
 
 		Map<String, String> map = new HashMap<>(4);
-		map.put(OAuth2WeChatOplatformParameterNames.OPENID, openid);
+		map.put(OAuth2WeChatOplatformWebsiteParameterNames.OPENID, openid);
 		map.put(OAuth2ParameterNames.ACCESS_TOKEN, accessToken);
 		String string = restTemplate.getForObject(userinfoUrl, String.class, map);
 		try {
@@ -383,7 +383,7 @@ public class InMemoryWeChatOplatformWebsiteService implements WeChatOplatformWeb
 		catch (IOException e) {
 			OAuth2Error error = new OAuth2Error(OAuth2WeChatOplatformWebsiteEndpointUtils.ERROR_CODE,
 					"微信开放平台 网站应用重定向异常", null);
-			throw new RedirectWeChatOplatformException(error, e);
+			throw new RedirectWeChatOplatformWebsiteException(error, e);
 		}
 
 	}

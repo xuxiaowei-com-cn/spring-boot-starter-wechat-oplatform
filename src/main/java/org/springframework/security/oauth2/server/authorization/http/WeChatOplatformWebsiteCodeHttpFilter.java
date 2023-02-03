@@ -9,9 +9,9 @@ package org.springframework.security.oauth2.server.authorization.http;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -117,15 +117,16 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 
 			Map<String, String> uriVariables = new HashMap<>(8);
 			uriVariables.put(OAuth2ParameterNames.GRANT_TYPE, grantType);
-			uriVariables.put(OAuth2WeChatOplatformParameterNames.APPID, appid);
+			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.APPID, appid);
 			uriVariables.put(OAuth2ParameterNames.CODE, code);
 			uriVariables.put(OAuth2ParameterNames.STATE, state);
 			uriVariables.put(OAuth2ParameterNames.SCOPE, scope);
 			uriVariables.put(OAuth2ParameterNames.CLIENT_ID, clientId);
 			uriVariables.put(OAuth2ParameterNames.CLIENT_SECRET, clientSecret);
-			uriVariables.put(OAuth2WeChatOplatformParameterNames.REMOTE_ADDRESS, remoteHost);
-			uriVariables.put(OAuth2WeChatOplatformParameterNames.SESSION_ID, session == null ? "" : session.getId());
-			uriVariables.put(OAuth2WeChatOplatformParameterNames.BINDING, binding);
+			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.REMOTE_ADDRESS, remoteHost);
+			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.SESSION_ID,
+					session == null ? "" : session.getId());
+			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.BINDING, binding);
 
 			OAuth2AccessTokenResponse oauth2AccessTokenResponse = weChatOplatformWebsiteService
 					.getOAuth2AccessTokenResponse(request, response, tokenUrlPrefix, TOKEN_URL, uriVariables);
