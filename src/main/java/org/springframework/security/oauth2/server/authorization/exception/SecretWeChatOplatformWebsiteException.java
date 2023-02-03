@@ -9,9 +9,9 @@ package org.springframework.security.oauth2.server.authorization.exception;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,30 +23,30 @@ package org.springframework.security.oauth2.server.authorization.exception;
 import org.springframework.security.oauth2.core.OAuth2Error;
 
 /**
- * 微信开放平台 redirectUri 异常
+ * 微信开放平台 Secret 异常
  *
  * @author xuxiaowei
  * @since 0.0.1
  */
-public class RedirectUriWeChatOplatformException extends WeChatOplatformException {
+public class SecretWeChatOplatformWebsiteException extends WeChatOplatformWebsiteException {
 
-	public RedirectUriWeChatOplatformException(String errorCode) {
+	public SecretWeChatOplatformWebsiteException(String errorCode) {
 		super(errorCode);
 	}
 
-	public RedirectUriWeChatOplatformException(OAuth2Error error) {
+	public SecretWeChatOplatformWebsiteException(OAuth2Error error) {
 		super(error);
 	}
 
-	public RedirectUriWeChatOplatformException(OAuth2Error error, Throwable cause) {
+	public SecretWeChatOplatformWebsiteException(OAuth2Error error, Throwable cause) {
 		super(error, cause);
 	}
 
-	public RedirectUriWeChatOplatformException(OAuth2Error error, String message) {
+	public SecretWeChatOplatformWebsiteException(OAuth2Error error, String message) {
 		super(error, message);
 	}
 
-	public RedirectUriWeChatOplatformException(OAuth2Error error, String message, Throwable cause) {
+	public SecretWeChatOplatformWebsiteException(OAuth2Error error, String message, Throwable cause) {
 		super(error, message, cause);
 	}
 
