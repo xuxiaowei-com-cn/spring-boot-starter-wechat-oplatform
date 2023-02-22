@@ -9,9 +9,9 @@ package org.springframework.security.oauth2.server.authorization.authentication;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -121,7 +121,7 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 		Set<String> requestedScopes = StringUtils.commaDelimitedListToSet(grantAuthenticationToken.getScope());
 
 		OAuth2ClientAuthenticationToken clientPrincipal = OAuth2AuthenticationProviderUtils
-				.getAuthenticatedClientElseThrowInvalidClient(grantAuthenticationToken);
+			.getAuthenticatedClientElseThrowInvalidClient(grantAuthenticationToken);
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 
 		// 自定义微信开放平台 网站应用用户的IP与SessionId
@@ -149,8 +149,8 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 		}
 
 		WeChatOplatformWebsiteTokenResponse weChatOplatformWebsiteTokenResponse = weChatOplatformWebsiteService
-				.getAccessTokenResponse(appid, code, state, binding, ACCESS_TOKEN_URL, USERINFO_URL, remoteAddress,
-						sessionId);
+			.getAccessTokenResponse(appid, code, state, binding, ACCESS_TOKEN_URL, USERINFO_URL, remoteAddress,
+					sessionId);
 
 		String openid = weChatOplatformWebsiteTokenResponse.getOpenid();
 		String unionid = weChatOplatformWebsiteTokenResponse.getUnionid();
@@ -249,7 +249,7 @@ public class OAuth2WeChatOplatformWebsiteAuthenticationProvider implements Authe
 
 		if (weChatOplatformWebsiteService == null) {
 			weChatOplatformWebsiteService = OAuth2WeChatOplatformWebsiteConfigurerUtils
-					.getWeChatOplatformWebsiteService(builder);
+				.getWeChatOplatformWebsiteService(builder);
 		}
 	}
 

@@ -105,7 +105,7 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 			String binding = weChatOplatformWebsiteService.getBinding(request, response, appid, code, state);
 
 			WeChatOplatformWebsiteProperties.WeChatOplatformWebsite oplatformWebsite = weChatOplatformWebsiteService
-					.getWeChatOplatformWebsiteByAppid(appid);
+				.getWeChatOplatformWebsiteByAppid(appid);
 
 			String clientId = oplatformWebsite.getClientId();
 			String clientSecret = oplatformWebsite.getClientSecret();
@@ -129,7 +129,7 @@ public class WeChatOplatformWebsiteCodeHttpFilter extends HttpFilter {
 			uriVariables.put(OAuth2WeChatOplatformWebsiteParameterNames.BINDING, binding);
 
 			OAuth2AccessTokenResponse oauth2AccessTokenResponse = weChatOplatformWebsiteService
-					.getOAuth2AccessTokenResponse(request, response, tokenUrlPrefix, TOKEN_URL, uriVariables);
+				.getOAuth2AccessTokenResponse(request, response, tokenUrlPrefix, TOKEN_URL, uriVariables);
 			if (oauth2AccessTokenResponse == null) {
 				return;
 			}
